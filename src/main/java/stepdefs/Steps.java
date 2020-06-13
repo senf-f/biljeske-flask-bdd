@@ -1,14 +1,31 @@
 package stepdefs;
 
+import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
+import org.junit.Assert;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public class Steps {
+
+    WebDriver driver;
+
+    @Before
+    public void setUp(){
+        System.setProperty("webdriver.chrome.driver", "C:\\tools\\chromedriver83\\chromedriver.exe");
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized");
+        driver = new ChromeDriver(options);
+
+    }
+
     @Given("user is on the homepage")
     public void userIsOnTheHomepage() {
-        System.out.println("User is on the homepage!");
+        driver.get("http://biljeske-flask.herokuapp.com/");
+        Assert.assertEquals("Bilježnica", driver.getTitle());
     }
 
     @When("user adds a note")

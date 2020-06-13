@@ -1,6 +1,7 @@
 Feature: Notes
   User can add, update and delete notes with categories.
 
+  @WIP
   Scenario: Add a note
     Given user is on the homepage
     When user adds a note

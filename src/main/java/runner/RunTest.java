@@ -7,7 +7,8 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src\\main\\resources\\features",
-        glue = "stepdefs"
+        glue = "stepdefs",
+        tags = "@WIP"
 )
 public class RunTest {
 
