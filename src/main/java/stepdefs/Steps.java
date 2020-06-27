@@ -17,9 +17,11 @@ import java.util.Arrays;
 public class Steps {
 
     WebDriver driver;
-    int brojRedova;
-    int noviBrojRedova;
+    int noOfRows;
+    int updatedNoOfRows;
     int randomTestId;
+    String noteDate;
+    String noteTime;
 
     @Before
     public void setUp(){
@@ -38,7 +40,7 @@ public class Steps {
 
     @When("user adds a note")
     public void userAddsANote() {
-        brojRedova = driver.findElements(By.cssSelector("table tr")).size();
+        noOfRows = driver.findElements(By.cssSelector("table tr")).size();
         randomTestId = (int) (Math.random() * 1000000);
         driver.findElement(By.id("category")).sendKeys("TEST kategorija "+randomTestId);
         driver.findElement(By.id("note")).sendKeys("TEST bilješka "+randomTestId);
@@ -46,15 +48,15 @@ public class Steps {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
 
-        noviBrojRedova = driver.findElements(By.cssSelector("table tr")).size();
-        Assert.assertEquals(noviBrojRedova, brojRedova + 1);
+        updatedNoOfRows = driver.findElements(By.cssSelector("table tr")).size();
+        Assert.assertEquals(updatedNoOfRows, noOfRows + 1);
         System.out.println("Bilješka uspješno dodana!");
     }
 
     @Then("note is visible in the list")
     public void noteIsVisibleInTheList() {
-        String posljednjiRed = driver.findElement(By.cssSelector("table tr:last-child")).getText();
-        System.out.println(Arrays.toString(posljednjiRed.split(" ")));
+        String lastRow = driver.findElement(By.cssSelector("table tr:last-child")).getText();
+        System.out.println(Arrays.toString(lastRow.split(" ")));
         //TODO: dodati provjeru datuma i vremena
     }
 
