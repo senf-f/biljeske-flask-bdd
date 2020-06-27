@@ -6,7 +6,9 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -17,6 +19,7 @@ public class Steps {
     WebDriver driver;
     int brojRedova;
     int noviBrojRedova;
+    int randomTestId;
 
     @Before
     public void setUp(){
@@ -35,12 +38,13 @@ public class Steps {
 
     @When("user adds a note")
     public void userAddsANote() {
-        //TODO: dodati random id po kojem ćemo kasnije brisati bilješku
         brojRedova = driver.findElements(By.cssSelector("table tr")).size();
-
-        driver.findElement(By.id("category")).sendKeys("TEST kategorija");
-        driver.findElement(By.id("note")).sendKeys("TEST bilješka");
-        driver.findElement(By.cssSelector("input[type='submit']")).click();
+        randomTestId = (int) (Math.random() * 1000000);
+        driver.findElement(By.id("category")).sendKeys("TEST kategorija "+randomTestId);
+        driver.findElement(By.id("note")).sendKeys("TEST bilješka "+randomTestId);
+        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
 
         noviBrojRedova = driver.findElements(By.cssSelector("table tr")).size();
         Assert.assertEquals(noviBrojRedova, brojRedova + 1);
