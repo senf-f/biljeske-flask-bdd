@@ -12,6 +12,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 public class Steps {
@@ -57,7 +59,10 @@ public class Steps {
     public void noteIsVisibleInTheList() {
         String lastRow = driver.findElement(By.cssSelector("table tr:last-child")).getText();
         System.out.println(Arrays.toString(lastRow.split(" ")));
-        //TODO: dodati provjeru datuma i vremena
+        String dateOfNote = driver.findElement(By.cssSelector("table tr:last-child td:nth-child(3)")).getText().split(" ")[0].strip();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDateTime now = LocalDateTime.now();
+        Assert.assertEquals("Wrong date! Today's date was expected.", dateOfNote, dtf.format(now));
     }
 
     @When("user edits a note")
