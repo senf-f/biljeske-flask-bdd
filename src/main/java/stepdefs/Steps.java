@@ -31,18 +31,17 @@ public class Steps {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
-
     }
 
     @Given("user is on the homepage")
     public void userIsOnTheHomepage() {
         driver.get("http://biljeske-flask.herokuapp.com/");
         Assert.assertEquals("Bilježnica", driver.getTitle());
+        noOfRows = driver.findElements(By.cssSelector("table tr")).size();
     }
 
     @When("user adds a note")
     public void userAddsANote() {
-        noOfRows = driver.findElements(By.cssSelector("table tr")).size();
         randomTestId = (int) (Math.random() * 1000000);
         driver.findElement(By.id("category")).sendKeys("TEST kategorija "+randomTestId);
         driver.findElement(By.id("note")).sendKeys("TEST bilješka "+randomTestId);
@@ -77,11 +76,17 @@ public class Steps {
 
     @When("user deletes a note")
     public void userDeletesANote() {
-        System.out.println("user deletes a note");
+        //new WebDriverWait(driver, 3).until(ExpectedConditions.elementToBeClickable(By.xpath("//tr/td[contains(., '"+randomTestId+"')]/following-sibling::td//button[@class='btn btn-primary']"))).click();
+        WebElement izbrisi = driver.findElement(By.cssSelector("table tr:last-child button.btn-primary"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", izbrisi);
+        izbrisi.click();
+        System.out.println("The last note deleted.");
+        //TODO: dodati brisanje prave bilješke
     }
 
     @Then("note is not visible in the list")
     public void noteIsNotVisibleInTheList() {
-        System.out.println("note is not visible in the list");
+        Assert.assertEquals(driver.findElements(By.cssSelector("table tr")).size(), noOfRows - 1);
+        System.out.println("The note is not visible in the list");
     }
 }

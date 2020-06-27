@@ -1,7 +1,6 @@
 Feature: Notes
   User can add, update and delete notes with categories.
 
-  @WIP
   Scenario: Add a note
     Given user is on the homepage
     When user adds a note
@@ -13,6 +12,7 @@ Feature: Notes
     When user edits a note
     Then updated note is visible in the list
 
+  @WIP
   Scenario: Delete a note
     Given user is on the homepage
     And note is visible in the list
