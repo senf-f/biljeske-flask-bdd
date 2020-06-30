@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +50,6 @@ public class Steps {
         WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
         element.click();
-
         updatedNoOfRows = driver.findElements(By.cssSelector("table tr")).size();
         Assert.assertEquals(updatedNoOfRows, noOfRows + 1);
         System.out.println("Bilješka uspješno dodana!");
@@ -66,11 +67,23 @@ public class Steps {
 
     @When("user edits a note")
     public void userEditsANote() {
-        System.out.println("user edits a note");
+        WebElement azuriraj = driver.findElement(By.cssSelector("table tr:last-child button.btn-secondary"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", azuriraj);
+        azuriraj.click();
+        new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains("update"));
+        driver.findElement(By.id("category")).clear();
+        driver.findElement(By.id("note")).clear();
+        driver.findElement(By.id("category")).sendKeys("ažurirana kategorija");
+        driver.findElement(By.id("note")).sendKeys("ažurirana bilješka");
+        driver.findElement(By.cssSelector("input[type='submit']")).click();
+        System.out.println("User edited the last note.");
     }
 
     @Then("updated note is visible in the list")
     public void updatedNoteIsVisibleInTheList() {
+        new WebDriverWait(driver, 10).until(ExpectedConditions.urlMatches("http://biljeske-flask.herokuapp.com/"));
+        String lastRow = driver.findElement(By.cssSelector("table tr:last-child")).getText();
+        Assert.assertTrue(lastRow.contains("ažurirana"));
         System.out.println("updated note is visible in the list");
     }
 

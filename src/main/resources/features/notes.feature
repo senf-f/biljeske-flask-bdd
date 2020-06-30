@@ -12,7 +12,6 @@ Feature: Notes
     When user edits a note
     Then updated note is visible in the list
 
-  @WIP
   Scenario: Delete a note
     Given user is on the homepage
     And note is visible in the list
