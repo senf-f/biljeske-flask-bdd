@@ -29,6 +29,7 @@ public class Steps {
     int randomTestId;
     String noteDate;
     String noteTime;
+    HomePagePO homePagePO;
 
     @Before
     public void setUp(){
@@ -36,6 +37,7 @@ public class Steps {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
+        homePagePO = new HomePagePO(driver);
     }
 
     @After
@@ -53,11 +55,10 @@ public class Steps {
     @When("user adds a note")
     public void userAddsANote() {
         randomTestId = (int) (Math.random() * 1000000);
-        driver.findElement(By.id("category")).sendKeys("TEST kategorija "+randomTestId);
-        driver.findElement(By.id("note")).sendKeys("TEST bilješka "+randomTestId);
-        WebElement element = driver.findElement(By.cssSelector("input[type='submit']"));
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        element.click();
+        homePagePO.category_input.sendKeys("TEST kategorija "+randomTestId);
+        homePagePO.note_input.sendKeys("TEST bilješka "+randomTestId);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", homePagePO.submit_button);
+        homePagePO.submit_button.click();
         updatedNoOfRows = driver.findElements(By.cssSelector("table tr")).size();
         Assert.assertEquals(updatedNoOfRows, noOfRows + 1);
         System.out.println("Bilješka uspješno dodana!");
