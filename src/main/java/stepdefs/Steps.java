@@ -1,5 +1,6 @@
 package stepdefs;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -33,6 +34,11 @@ public class Steps {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
         driver = new ChromeDriver(options);
+    }
+
+    @After
+    public void tearDown(){
+        driver.quit();
     }
 
     @Given("user is on the homepage")
