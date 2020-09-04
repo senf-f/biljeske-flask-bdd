@@ -16,11 +16,14 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import pageobjects.HomePagePO;
+import settings.Settings;
+import settings.SettingsReader;
 
 public class Steps {
 
@@ -33,8 +36,9 @@ public class Steps {
     HomePagePO homePagePO;
 
     @Before
-    public void setUp(){
+    public void setUp() throws IOException {
 //        System.setProperty("webdriver.chrome.driver", "C:\\tools\\chromedriver83\\chromedriver.exe");
+        SettingsReader.populateSettings();
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
@@ -52,7 +56,7 @@ public class Steps {
 
     @Given("user is on the homepage")
     public void userIsOnTheHomepage() {
-        driver.get("http://biljeske-flask.herokuapp.com/");
+        driver.get(Settings.PROD_URL);
         Assert.assertEquals("Bilježnica", driver.getTitle());
         noOfRows = driver.findElements(By.cssSelector("tbody tr")).size();
     }
