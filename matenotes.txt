@@ -1,0 +1,7 @@
+Mark feature folder as test resources root and steps folder as test sources root
+
+https://stackoverflow.com/questions/32695075/intellij-idea-not-able-to-recognize-some-cucumber-steps
+
+
+CSS dark mode:
+https://webdesign.tutsplus.com/tutorials/create-a-stylish-dark-contact-form-with-html-css-and-javascript--cms-33201

@@ -25,6 +25,9 @@ dependencies {
     compile group: 'io.cucumber', name: 'gherkin', version: '13.0.0'
     // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    compile group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '3.8.1'
+
     implementation 'junit:junit:4.12'
     implementation 'junit:junit:4.12'
 
