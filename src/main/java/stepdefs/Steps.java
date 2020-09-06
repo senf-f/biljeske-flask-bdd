@@ -22,6 +22,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import pageobjects.HomePagePO;
+import pageobjects.UpdatePagePO;
 import settings.Settings;
 import settings.SettingsReader;
 
@@ -34,6 +35,7 @@ public class Steps {
     String noteDate;
     String noteTime;
     HomePagePO homePagePO;
+    UpdatePagePO updatePagePO;
 
     @Before
     public void setUp() throws IOException {
@@ -47,6 +49,7 @@ public class Steps {
         options.addArguments("--headless");
         driver = new ChromeDriver(options);
         homePagePO = new HomePagePO(driver);
+        updatePagePO = new UpdatePagePO(driver);
     }
 
     @After
@@ -89,11 +92,9 @@ public class Steps {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", azuriraj);
         azuriraj.click();
         new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains("update"));
-        driver.findElement(By.id("category")).clear();
-        driver.findElement(By.id("note")).clear();
-        driver.findElement(By.id("category")).sendKeys("ažurirana kategorija");
-        driver.findElement(By.id("note")).sendKeys("ažurirana bilješka");
-        driver.findElement(By.cssSelector("input[type='submit']")).click();
+        updatePagePO.clearAndEnterText(updatePagePO.categoryUpdate_input, "ažurirana kategorija");
+        updatePagePO.clearAndEnterText(updatePagePO.noteUpdate_input, "ažurirana bilješka");
+        updatePagePO.submitUpdate_button.click();
         System.out.println("User edited the last note.");
     }
 
